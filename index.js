@@ -9,8 +9,11 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: process.env.FRONTEND_ORIGIN || true }));
-
+app.use(cors({
+  origin: ["https://musicartist-frontend.vercel.app"], 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 mongoose
   .connect(process.env.MONGO_URI, { autoIndex: true })
   .then(() => console.log("✅ MongoDB connected"))
