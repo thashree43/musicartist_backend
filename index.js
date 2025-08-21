@@ -9,11 +9,16 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors({
-  origin: ["*"], 
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
+
+// app.use(cors({
+//   origin: ["*"], 
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   credentials: true
+// }));
+
+app.use(cors())
+
+
 mongoose
   .connect(process.env.MONGO_URI, { autoIndex: true })
   .then(() => console.log("✅ MongoDB connected"))
@@ -21,7 +26,9 @@ mongoose
 
 app.use("/api", artistRoutes);
 app.use("/api", searchRoutes);
-
+app.get("/", (req, res) => {
+  res.send("Welcome to Thashreef  API ");
+});
 const port = process.env.PORT || 3000;
 app.listen(port, () =>
   console.log(` Server running on http://localhost:${port}`)
